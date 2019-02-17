@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,16 +14,26 @@ import org.springframework.web.bind.annotation.RestController;
 import com.deepak.ratingsdataservice.model.Rating;
 
 @RestController
+@RefreshScope
 @RequestMapping("/ratings")
 public class RatingsDataController
 {
    @Value("${eureka.instance.instance-id}")
    private String instanceId;
    
+   @Value("${message:Ratings Data service - Config Server is not working..pelase check}")
+   private String message;
+   
    @RequestMapping( method=RequestMethod.GET, path="/movies/{movieId}")
    public Rating getRatingForMovie( @PathVariable("movieId") String movieId )
    {
       return new Rating( movieId, 4 );
+   }
+   
+   @RequestMapping( method=RequestMethod.GET, path="/message")
+   public String getMessage()
+   {
+      return this.message + " - with instance id - "+ this.instanceId;
    }
    
    @RequestMapping( method=RequestMethod.GET, path="/users/{userId}")
