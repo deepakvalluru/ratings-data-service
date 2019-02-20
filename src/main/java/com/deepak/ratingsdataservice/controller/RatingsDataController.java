@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,8 @@ import com.deepak.ratingsdataservice.model.Rating;
 @RequestMapping("/ratings")
 public class RatingsDataController
 {
+   private static final Logger logger = LoggerFactory.getLogger( RatingsDataController.class );
+
    @Value("${eureka.instance.instance-id}")
    private String instanceId;
    
@@ -33,13 +37,15 @@ public class RatingsDataController
    @RequestMapping( method=RequestMethod.GET, path="/message")
    public String getMessage()
    {
-      return this.message + " - with instance id - "+ this.instanceId;
+      String message = this.message + " - with instance id - "+ this.instanceId; 
+      logger.debug( "Here's the message : {}", message );
+      return message;
    }
    
    @RequestMapping( method=RequestMethod.GET, path="/users/{userId}")
    public List< Rating > getRatingsForUser( @PathVariable("userId") String userId )
    {
-      System.out.println( "Instance Id for ratings-data-service : " + instanceId );
+      logger.debug( "Instance Id for ratings-data-service : {}", instanceId );
       
       return Stream.< Rating > builder()
                    .add( new Rating( "1234", 4 ) )
