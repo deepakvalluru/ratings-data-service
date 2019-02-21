@@ -32,7 +32,7 @@ public class RatingsDataController
    @RequestMapping( method=RequestMethod.GET, path="/movies/{movieId}")
    public Rating getRatingForMovie( @PathVariable("movieId") String movieId )
    {
-      return new Rating( movieId, 4 );
+      return new Rating( movieId, 8 );
    }
    
    @RequestMapping( method=RequestMethod.GET, path="/message")
@@ -46,7 +46,7 @@ public class RatingsDataController
    @RequestMapping( method=RequestMethod.GET, path="/users/{userId}")
    public List< Rating > getRatingsForUser( @PathVariable("userId") String userId )
    {
-      logger.debug( "Instance Id for ratings-data-service : {}", instanceId );
+      logger.debug( "Getting Ratings for user Id : {}", userId );
       
       return Stream.< Rating > builder()
                    .add( new Rating( "1234", 4 ) )
