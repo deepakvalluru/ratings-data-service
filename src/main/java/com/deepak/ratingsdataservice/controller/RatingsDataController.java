@@ -1,5 +1,6 @@
 package com.deepak.ratingsdataservice.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,7 +38,7 @@ public class RatingsDataController
    @RequestMapping( method=RequestMethod.GET, path="/message")
    public String getMessage()
    {
-      String message = this.message + " - with instance id - "+ this.instanceId; 
+      String message = this.message + " - with instance id - "+ this.instanceId + " at this time - " + LocalDateTime.now(); 
       logger.debug( "Here's the message : {}", message );
       return message;
    }
